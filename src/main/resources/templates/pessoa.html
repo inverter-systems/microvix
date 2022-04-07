@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="~{layout/head :: head('Integração de Pessoas')}"></header>
+    <body>
+        <header th:replace="~{layout/header :: header}"></header>
+	
+		<div class="container-fluid">
+	    	<div class="row">
+	       	<nav th:replace="~{layout/menu :: menu}"></nav>
+	       
+       		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+       		
+	      		<!-- Variaveis -->
+	      		<input type="hidden" id="path" th:value="${path}">
+	      		<input type="hidden" id="filter" th:value="${filter}">
+	      		
+	      		<!-- Area do titulo -->
+				<div th:replace="~{comp/title :: title(title='Integração de Clientes e fornecedores')}"></div>
+	      		
+	            <!-- Area das mensagens -->
+	            <div th:replace="~{comp/feedback :: feedback}"></div>	           
+		      
+		      	<!-- Area de conteudo -->
+		      	<div class="container-fluid my-2">
+		      	
+		            <h5 class="text-start mt-4">Filtros da Consulta</h5>
+			        <div class="row pb-2">
+				        <div class="col-2">
+						  <label for="codigo" class="form-label">Código NL</label>
+						  <input type="text" class="form-control" id="codigo" placeholder="Digite o código NL" th:value="${codigo != 'SN' ? codigo : ''}">
+						</div>
+						<div class="col-6">
+						  <label for="nome" class="form-label">Nome</label>
+						  <input type="text" class="form-control" id="nome" placeholder="Digite o nome da pessoa" th:value="${nome !='SN' ? nome : ''}">
+						</div>			
+						<div class="col-2">
+						  <label for="tipo" class="form-label">Tipo</label>
+						  <select name="tipo" id="tipo" class="form-select">
+						      <option th:value="'SN'" th:text="Todos" th:selected="${tipo != 'F' || tipo != 'J'}"></option>
+    						  <option th:value="'F'" th:text="Física" th:selected="${tipo == 'F'}"></option>						  
+    						  <option th:value="'J'" th:text="Jurídica" th:selected="${tipo == 'J'}"></option>	
+						  </select>
+						</div>		
+						<div class="col-2">
+						  <label for="tipopessoa" class="form-label">Relacionamento</label>
+						  <select name="tipopessoa" id="tipopessoa" class="form-select">		
+						  	  <option th:value="'Fornecedor'" th:text="Fornecedor" th:selected="${tipopessoa == 'Fornecedor'}"></option>				     
+    						  <option th:value="'Cliente'" th:text="Cliente" th:selected="${tipopessoa == 'Cliente'}"></option>						  
+						  </select>
+						</div>			       
+					</div>
+					
+					<div class="btn-toolbar mb-2 mb-md-0 justify-content-end">
+						<button type="button" class="btn btn-secondary" id="reset" onClick="reset()">Limpar</button>
+				        <span style="padding-left: 5px;"></span>
+						<button type="button" class="btn btn-primary" id="filtrar">Filtrar</button>
+			        </div>				
+					
+		        	<h5 class="text-start">Pessoas - Clientes e Fornecedores NL</h5>
+		        	<table border="1" class="table mt-3 table-bordered table-striped table-responsive-md table-hover table-sm">
+		        		<thead>
+		        			<tr>
+		        				<th>Código</th>
+		        				<th>Nome</th>
+		        				<th>CPF / CNPJ</th>
+		        				<th>Tipo</th>
+		        				<th>Cidade</th>
+		        				<th>Estado</th>
+		        			</tr>
+		        		</thead>
+		        		<tbody>
+							<tr th:each="pessoa : ${listPessoa}">
+								<td th:text="${pessoa.codigo}"></td>	
+								<td th:text="${pessoa.nomeRazaoSocial}"></td>
+								<td th:text="${pessoa.docCliente}"></td>
+								<td th:text="${pessoa.pfPj}"></td>
+								<td th:text="${pessoa.cidade}"></td>												
+								<td th:text="${pessoa.uf}"></td>
+							</tr>        		
+		        		</tbody>
+		        	
+		        	</table>
+		        	
+		        	<!-- Navegador -->
+		        	<div th:replace="~{comp/navigator :: navigator}"></div>
+		            
+		            <!-- Ações / Status Processamento -->
+					<div class="row me-auto">
+					    
+						<div class="btn-toolbar mb-2 mb-md-0 col-5">
+						<label for="acoes" class="form-label inv-label">Dados</label>
+							<select name="acoes" id="acoes" class="form-select inv-select">								
+								<option value="todos" selected="True">Todos os Dados</option>
+								<option value="cpfpj">CPF / CNPJ</option>
+					  		</select>
+							<button type="button" class="btn btn-primary me-1" id="processar">Atualizar Microvix</button>
+						</div>
+						<span id="status" class="col-1 mt-1 text-end">Progresso:</span>
+						<div class="progress border float-end col-6 mt-1">
+							<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+		        </div>
+		    </main>
+    	 </div>
+	   </div>	
+    </body>
+    <script>
+    $( document ).ready(function() {
+	    	
+	    	var codigo = $("#codigo").val();
+	        var nome = $("#nome").val();
+	        var tipo = $("#tipo option:selected").val();
+	        var tipopessoa = $("#tipopessoa option:selected").val();
+
+	      	// Bloquear formumario, porque ja tem uma consulta com filtros em andamento
+	    	bloquear_filtro(codigo, nome, tipo);	
+	        
+	        // Filtrar
+	    	$("#filtrar").click(function (event) {
+	            event.preventDefault();
+	            
+	            var action = $("#acoes option:selected").val();
+	            
+	            codigo = $("#codigo").val();
+	            nome = $("#nome").val();
+	        	tipo = $("#tipo option:selected").val();
+	        	tipopessoa = $("#tipopessoa option:selected").val();
+	        	
+	        	window.location.assign("/pessoa?codigo="+codigo+"&nome="+nome+"&tipo="+tipo+"&tipopessoa="+tipopessoa);
+	        });  
+
+	        // Processa todos os dados dos itens
+	    	$("#processar").click(function (event) {
+	    		event.preventDefault();
+	    		var action = $("#acoes option:selected").val();
+	    		bloquear_action();
+	    		$.get("/pessoa?action="+action+"&codigo="+codigo+"&nome="+nome+"&tipo="+tipo+"&tipopessoa="+tipopessoa);
+	    		
+ 	    		start(liberar_action);
+	    	});   
+		});	
+	    
+	    function reset() {	
+	    	window.location.assign("/pessoa");
+	    }
+	    	
+	    function bloquear_filtro(codigo, nome, tipo, tipopessoa) {
+	    	tipo = tipo == "SN" ? "" : tipo;
+	    	if (codigo || nome || tipo || tipopessoa ) {
+	        	$("#codigo").attr("disabled", true);
+	         	$("#nome").attr("disabled", true);
+	        	$("#tipo").attr("disabled", true);
+	        	$("#tipopessoa").attr("disabled", true);
+	        	$("#filtrar").attr("disabled", true);
+	    	}
+	    }
+
+	    function bloquear_action() {
+	    	$("#acoes").attr("disabled", true);	  
+	    	$("#processar").attr("disabled", true);	 
+	    	
+	    	$("#filtrar").attr("disabled", true);
+	    	$("#reset").attr("disabled", true);
+	    	
+	    	$(".page-item.disabled").addClass("inv-disabled");
+	    	$(".page-item").addClass("disabled");	
+	    }
+
+	    function liberar_action() {
+	    	$("#acoes").attr("disabled", false);	  
+	    	
+	    	if (codigo || setor || marca ) {    	
+	    		$("#reset").attr("disabled", false);
+	    	} else {
+	    		$("#reset").attr("disabled", false);
+	    		$("#filtrar").attr("disabled", false);
+	    	}
+	    	
+	    	$("#processar").attr("disabled", false);
+	    	$(".page-item").removeClass("disabled");	
+	    	$(".page-item.inv-disabled").removeClass(".inv-disabled").addClass("disabled");
+	    }
+	</script>	   
+</html>

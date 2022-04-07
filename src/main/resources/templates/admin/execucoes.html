@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="~{layout/head :: head('Execuções de Integração')}"></header>
+    <body>
+        <header th:replace="~{layout/header :: header}"></header>
+	
+		<div class="container-fluid">
+	    	<div class="row">
+	       	<nav th:replace="~{layout/menu :: menu}"></nav>
+	       
+       		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+       		
+	      		<!-- Variaveis -->
+	      		<input type="hidden" id="path" th:value="${path}">
+	      		<input type="hidden" id="filter" th:value="${filter}">
+	      		
+	      		<!-- Area do titulo -->
+				<div th:replace="~{comp/title :: title(title='Eventos de Execuções de Integração')}"></div>
+	      		
+	            <!-- Area das mensagens -->
+	            <div th:replace="~{comp/feedback :: feedback}"></div>	           
+		      
+		      	<!-- Area de conteudo -->
+		      	<div class="container-fluid my-2">
+			      		
+		      		<!-- Area de filtro da consulta - Inicio -->
+					<h5 class="text-start mt-4">Filtros da Consulta</h5>
+			        <div class="row pb-2">
+				        <div class="col-3">
+							<label for="dtaInicio" class="form-label">Data da Execução</label>
+						  	<input type="text" class="form-control" id="dtaInicio" placeholder="Digite a data da execução" th:value="${dtaInicio != 'SN' ? dtaInicio : ''}">
+						</div>
+						<div class="col-4">
+							<label for="origem" class="form-label">Sistema Origem dos Dados</label>
+					  		<select name="origem" id="origem" class="form-select">
+					      		<option th:value="'SN'" th:text="Todos" th:selected="${origem != '1' || origem != '2' || origem != '3'}"></option>
+   						  		<option th:value="'1'" th:text="NL" th:selected="${origem == '1'}"></option>						  
+   						  		<option th:value="'2'" th:text="MICROVIX" th:selected="${origem == '2'}"></option>
+   						  		<option th:value="'3'" th:text="PCI" th:selected="${origem == '3'}"></option>		
+					  		</select>
+						</div>			
+						
+						<div class="col-5">
+						  	<label for="cadastro" class="form-label">Tipo de Cadastro</label>
+							<select name="cadstro" id="cadastro" class="form-select">
+					      		<option th:value="${cad.valor}" th:text="${cad.valor != 'SN' ? cad.valor : 'Todos'}" th:each="cad : ${listCadastro}" th:selected="${cad.valor == cadastro}"></option>    						  		
+					  		</select>
+						</div>		        
+					</div>
+						
+					<div class="btn-toolbar mb-2 mb-md-0 justify-content-end">
+						<button type="button" class="btn btn-secondary" id="reset" onClick="reset()">Limpar</button>
+				        <span style="padding-left: 5px;"></span>
+						<button type="button" class="btn btn-primary" id="filtrar">Filtrar</button>
+			        </div>				
+					<!-- Area de filtro da consulta - Fim -->
+						
+						<!-- Area da grid resultado da consulta - Inicio -->
+						<h5 class="text-start">Execuções</h5>
+			        	<table border="1" class="table mt-3 table-bordered table-striped table-responsive-md table-hover table-sm">
+			        		<thead>
+			        			<tr>
+			        				<th class="text-center">Código</th>
+			        				<th>Descrição</th>
+			        				<th class="text-center">Data Inicio</th>
+			        				<th class="text-center">Hora</th>
+			        				<th class="text-center">Minuto</th>
+			        				<th>Origem</th>
+			        				<th>Destino</th>
+			        				<th>Cadastro</th>
+			        				<th class="text-center">Páginas</th>
+			        				<th class="text-center" colspan="2">Log</th>
+			        			</tr>
+			        		</thead>
+			        		<tbody>
+								<tr th:each="agendamento : ${listAgendamento}">
+									<td class="text-center" th:text="${agendamento.id}"></td>	
+									<td th:text="${agendamento.nome}"></td>
+									<td class="text-center" th:text="${agendamento.dtaInicioFmt}"></td>
+									<td class="text-center" th:text="${agendamento.hora}"></td>
+									<td class="text-center" th:text="${agendamento.minuto}"></td>
+									<td th:text="${agendamento.origemFmt}"></td>
+									<td th:text="${agendamento.destinoFmt}"></td>
+									<td th:text="${agendamento.cadastro}"></td>
+									<td class="text-center" th:text="${agendamento.qtdPaginas}"></td>
+									<td class="text-center">
+										<a class="text-dark" th:href="@{/log?execId={id}(id=${agendamento.id})}" data-bs-toggle="tooltip" data-bs-placement="left" title="Log de Execução">
+									    	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16"><path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/><path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/></svg>
+										</a>
+			        				</td>
+								</tr>        		
+			        		</tbody>
+			        	</table>
+			            <!-- Area da grid resultado da consulta - Fim -->
+			            
+			            <!-- Navegador -->
+		        		<div th:replace="~{comp/navigator :: navigator}"></div>
+			            
+			            <div class="row me-auto">
+				            <div class="btn-toolbar mb-2 mb-md-0 col-4">
+					          	<button type="button" class="btn btn-secondary me-1" id="proc_todos">Limpar Log</button>				          	
+					        </div>
+				        </div>
+			        </div>
+			    </main>
+			</div>
+		</div>	
+    </body>
+</html>

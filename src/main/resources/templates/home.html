@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="~{layout/head :: head('Home')}"></header>
+    <body>
+       <header th:replace="~{layout/header :: header}"></header>
+	
+	   <div class="container-fluid">
+	     <div class="row">
+	       <nav th:replace="~{layout/menu :: menu}"></nav>
+	       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+      
+      
+           </main>
+    	 </div>
+	   </div>	
+       
+    </body>
+</html>

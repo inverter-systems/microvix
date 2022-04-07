@@ -1,0 +1,14 @@
+<!-- Modal -->
+<div th:fragment="loader(title)" class="modal fade" id="loader" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">[(${title})]...</h5>        
+      </div>
+      <div class="modal-body text-center">
+      	  <img src="../static/img/loader.gif" style="width: 150px; margin: 20px;">
+      	  <p><strong>Aguarde finalizar o processamento, por favor!</strong></p>
+      </div>      
+    </div>
+  </div>
+</div>

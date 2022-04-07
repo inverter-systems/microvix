@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="~{layout/head :: head('Integração de Notas Fiscal')}"></header>
+    <body>
+        <header th:replace="~{layout/header :: header}"></header>
+	
+		<div class="container-fluid">
+	    	<div class="row">
+	       	<nav th:replace="~{layout/menu :: menu}"></nav>
+	       
+       		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+       		
+	      		<!-- Variaveis -->
+	      		<input type="hidden" id="path" th:value="${path}">
+	      		<input type="hidden" id="filter" th:value="${filter}">
+	      		<input type="hidden" id="id" th:value="${id}">
+	      		<input type="hidden" id="codUnidade" th:value="${codUnidade}">
+	      		
+	      		<!-- Area do titulo -->
+				<div th:replace="~{comp/title :: title(title='Integração de Notas Fiscal')}"></div>
+	      		
+	            <!-- Area das mensagens -->
+	            <div th:replace="~{comp/feedback :: feedback}"></div>	   
+	            
+	            <!-- Mensagem -->
+		        <div th:replace="~{comp/message :: message(title='Aviso', text='Funcionalidade em implementação!!!', textButton='Ok' )}"></div>    
+		        
+		        <!-- Loader -->
+		        <div th:replace="~{comp/loader :: loader(title='Aguarde')}"></div>         
+		      
+		      	<!-- Area de conteudo -->
+		      	<div class="container-fluid my-2">
+		      	
+		      		<div class="btn-toolbar mb-2 justify-content-end" style="position: absolute; right: 45px;">
+						<a href="javascript: history.go(-1)"><button type="button" class="btn btn-primary" id="voltar">Voltar</button></a>	
+			        </div>
+		      
+		            <h5 class="text-start mt-4" >Destinatário/Remetente</h5>
+			        <div class="row">
+				        <div class="col-4">
+						  <label for="codigo" class="form-label fw-bold">Código:</label>
+						  <input type="text" class="invInputTextOnly" id="codigo" disabled="disabled" th:value="${nota.cliente.codCliente}">
+						</div>
+						<div class="col-4">
+						  <label for="nome" class="form-label fw-bold">Nome:</label>
+						  <input type="text" class="invInputTextOnly" id="nome" disabled="disabled" th:value="${nota.cliente.nomeCliente}">
+						</div>
+						<div class="col-4">
+						  <label for="cpfcnpj" class="form-label fw-bold">CPF/CNPJ:</label>
+						  <input type="text" class="invInputTextOnly" id="cpfcnpj" disabled="disabled" th:value="${nota.cliente.docCliente}">
+						</div>
+					</div>
+					<div class="row">					
+				        <div class="col-4">
+						  <label for="logradouro" class="form-label fw-bold">Logradouro:</label>
+						  <input type="text" class="invInputTextOnly" id="logradouro" disabled="disabled" th:value="${nota.cliente.enderecoCliente}">
+						</div>
+						<div class="col-4">
+						  <label for="numero" class="form-label fw-bold">Número:</label>
+						  <input type="text" class="invInputTextOnly" id="numero" disabled="disabled" th:value="${nota.cliente.numeroRuaCliente}">
+						</div>
+						<div class="col-4">
+						  <label for="bairro" class="form-label fw-bold">Bairro:</label>
+						  <input type="text" class="invInputTextOnly" id="bairro" disabled="disabled" th:value="${nota.cliente.bairroCliente}">
+						</div>
+					</div>
+										
+					<h5 class="text-start mt-4">Dados Complementares</h5>
+					<div class="row">
+				        <div class="col-3">
+						  <label for="numero" class="form-label fw-bold">Nota Fiscal:</label>
+						  <input type="text" class="invInputTextOnly" id="numero" disabled="disabled" th:value="${nota.numero}">
+						</div>						
+						<div class="col-3">
+						  <label for="codigo" class="form-label fw-bold">Série:</label>
+						  <input type="text" class="invInputTextOnly" id="codigo" disabled="disabled" th:value="${nota.serie}">
+						</div>
+						<div class="col-3">
+						  <label for="operacao" class="form-label fw-bold">Tipo de Operação:</label>
+						  <input type="text" class="invInputTextOnly" id="operacao" disabled="disabled" th:value="${nota.operacaoFmt}">
+						</div>
+						<div class="col-3">
+						  <label for="codigo" class="form-label fw-bold">Data da Emissão:</label>
+						  <input type="text" class="invInputTextOnly" id="codigo" disabled="disabled" th:value="${nota.dataEmissaoFmt}">
+						</div>
+						<div class="col-6">
+						  <label for="vendedor" class="form-label fw-bold">Vendedor:</label>
+						  <input type="text" class="invInputTextOnly" id="vendedor" disabled="disabled" th:value="${nota.vendedor.vendedorFmt}">
+						</div>
+						
+						<div class="col-6">
+						  <label for="naturezaOperacao" class="form-label fw-bold">Nat. da Operação:</label>
+						  <input type="text" class="invInputTextOnly invInputTextOnlyCol3" id="naturezaOperacao" disabled="disabled" th:value="${nota.naturezaOperacao}">
+						</div>
+						<div class="col-6">
+						  <label for="formaPgto" class="form-label fw-bold">Forma de Pgto:</label>
+						  <input type="text" class="invInputTextOnly invInputTextOnlyCol3" id="formaPgto" disabled="disabled" th:value="${pagto}">
+						</div>
+						<div class="col-6">
+						  <label for="chavenfe" class="form-label fw-bold">Chave NFe/NFCe:</label>
+						  <input type="text" class="invInputTextOnly invInputTextOnlyCol3" id="chavenfe" disabled="disabled" th:value="${nota.chaveNf}">
+						</div>
+					</div>
+					
+		        	<h5 class="text-start mt-4">Produtos</h5>
+					<table border="1" class="table mt-3 table-bordered table-striped table-responsive-md table-hover table-sm">
+						<thead>
+							<tr>
+								<th class="text-center">Código</th>
+								<th class="text-center">Código NL</th>
+								<th class="text-center">Descrição</th>
+								<th class="text-center">CST</th>
+								<th class="text-center">CFOP</th>
+								
+								<th class="text-center">Quatidade</th>
+								<th class="text-end">Valor Unit.</th>
+								<th class="text-end">Valor Total</th>
+								
+								<th class="text-center">ICMS %</th>
+								<th class="text-center">IPI %</th>
+								<th class="text-center">V.IPI</th>
+								<th class="text-center">V.ST</th>
+							</tr>
+						</thead>
+						<tbody>
+						   	<tr th:each="item : ${nota.itens}">
+								<td class="text-center" th:text="${item.codProduto}"></td>	
+								<td class="text-center" th:text="${item.codNL}"></td>
+								<td th:text="${item.descricao}"></td>
+								<td class="text-center" th:text="${item.cst}"></td>
+								<td class="text-center" th:text="${item.cfop}"></td>
+								
+								<td class="text-center" th:text="${item.quantidade}"></td>
+								<td class="text-end" th:text="${item.precoUnitarioFmt}"></td>
+								<td class="text-end" th:text="${item.valorTotalFmt}"></td>
+								
+								<td class="text-center" th:text="${item.icmsPercentFmt}"></td>
+								<td class="text-center" th:text="${item.ipiPercentFmt}"></td>
+								<td class="text-center" th:text="${item.valorIpiFmt}"></td>
+								<td class="text-center" th:text="${item.valorStFmt}"></td>
+							</tr> 
+						</tbody>
+					</table>
+					
+					<h5 class="text-start mt-4 ajsute-h5">Totais da Nota</h5>
+					<div class="row center-wrapper">
+						<div class="col-2 inv-border">
+							<label for="piscofins" class="text-end form-label fw-bold mb-0">PIS/COFINS</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="piscofins" disabled="disabled" th:value="${pisCofins}">
+						</div>
+						<div class="col-2 inv-border">
+							<label for="baseicms" class="text-end form-label fw-bold mb-0">Base Cálc. ICMS</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="baseicms" disabled="disabled" th:value="${bcIcms}">
+						</div>
+						<div class="col-2 inv-border">
+							<label for="valoricms" class="text-end form-label fw-bold mb-0">Valor do ICMS</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="valoricms" disabled="disabled" th:value="${vIcms}">
+						</div>
+						<div class="col-2 inv-border">
+							<label for="baseicmsst" class="text-end form-label fw-bold mb-0">Base ICMS-ST</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="baseicmsst" disabled="disabled" th:value="${bcIcmsSt}">
+						</div>
+						<div class="col-2 inv-border">
+							<label for="valoricmsst" class="text-end form-label fw-bold mb-0">Valor ICMS-ST</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="valoricmsst" disabled="disabled" th:value="${vIcmsSt}">
+						</div>
+						<div class="col-2 inv-border inv-border-end">
+							<label for="valortotprod" class="text-end form-label fw-bold mb-0">V. Total Produtos</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="valortotprod" disabled="disabled" th:value="${vTotProdutos}">
+						</div>
+					</div>
+					
+					<div class="row center-wrapper">						
+						<div class="col-2 inv-border no-border-top">
+							<label for="frete" class="text-end form-label fw-bold mb-0">Valor do Frete</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="frete" disabled="disabled" th:value="${vFrete}">
+						</div>
+						<div class="col-2 inv-border no-border-top">
+							<label for="seguro" class="text-end form-label fw-bold mb-0">Valor do Seguro</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="seguro" disabled="disabled" th:value="${vSeguro}">
+						</div>
+						<div class="col-2 inv-border no-border-top">
+							<label for="outras" class="text-end form-label fw-bold mb-0">Outras Despesas</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="outras" disabled="disabled" th:value="${vOutras}">
+						</div>
+						<div class="col-2 inv-border no-border-top">
+							<label for="ipi" class="text-end form-label fw-bold mb-0">Valor Total do IPI</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="ipi" disabled="disabled" th:value="${vTotIpi}">
+						</div>
+						<div class="col-4 inv-border inv-border-end no-border-top">
+							<label for="totnota" class="text-end form-label fw-bold mb-0">V.Total da Nota</label>
+							<input type="text" class="text-end invInputTextOnly invInputTextOnly100" id="totnota" disabled="disabled" th:value="${vTotNota}">
+						</div>
+					</div>
+					<h5 class="text-start mt-4">Observações</h5>
+					<div class="row">
+						<input type="text" class="invInputTextOnly col-12 mb-3" id="chavenfe" disabled="disabled" th:value="${nota.observacoes}">
+					</div>
+					
+					<!-- Ações / Status Processamento -->
+					<div class="row me-auto">
+						<div class="btn-toolbar mb-2 col-5">
+							<a th:href="${microvix_url}" target="_blank" class="pe-2">
+								<button type="button" class="btn btn-secondary" id="Nota_microvix">Nota no Microvix</button>
+							</a>
+							<button type="button" class="btn btn-primary me-1" id="processar" data-bs-toggle="modal" data-bs-target="#loader" >Atualizar N&L Gestão</button>
+						</div>
+					</div>
+					
+					<div class="row mt-2">
+						<h5 class="col-12 small">Obs.: Para usar "Nota no Microvix" é necessário estar logado no Microvix em outra guia do navegador.</h5>
+					</div>
+					
+	        	</div>
+					
+		        </div>
+		        
+		    </main>
+    	 </div>
+	   </div>	
+       
+    </body>
+    <script type="text/javascript">
+   		var myLoadaer;
+   		var timer;
+	    $( document ).ready(function() {
+	    	var id = $("#id").val();	
+	    	var codUnidade = $("#codUnidade").val();	
+	    	
+	    	myLoader = new bootstrap.Modal(document.getElementById('loader'));
+	    	
+	        // Processa todos os dados dos itens
+ 	    	$("#processar").click(function (event) {
+ 	    		event.preventDefault();	 
+ 	    		myLoader.show();
+ 	    		
+ 	    		$.get("/nota?action=processar&id="+id+"&codUnidade="+codUnidade);
+    		
+ 	    		timer = setInterval("getStatus()", 2000);
+ 	    	});   
+		});
+	    
+		function getStatus() {
+			var url = $("#path").val();
+			$.get("/"+url+"/status", function(res) {
+				var status = res.split(":")[0];	
+				var msg = res.split(":")[2];	
+					
+				if (status == "Concluido") {
+					clearInterval(timer);	
+					
+					setTimeout(function(){
+						feedback("Parabens! Processamento concluído com sucesso.", 'success');	
+						myLoader.hide();	
+					},1000);					
+		    	}
+				
+				if (status == "Erro") {
+					clearInterval(timer);	
+					
+					setTimeout(function(){
+						feedback(msg, 'danger');	
+						myLoader.hide();	
+					},1000);					
+		    	}	
+					
+			});
+		}
+	 </script>
+</html>

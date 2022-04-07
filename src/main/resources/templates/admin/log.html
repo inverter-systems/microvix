@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="~{layout/head :: head('Log de Execuções')}">
+    <body>
+        <header th:replace="~{layout/header :: header}"></header>
+	
+		<div class="container-fluid">
+	    	<div class="row">
+	       	<nav th:replace="~{layout/menu :: menu}"></nav>
+	       
+       		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+       		
+	      		<!-- Variaveis -->
+	      		<input type="hidden" id="path" th:value="${path}">
+	      		<input type="hidden" id="filter" th:value="${filter}">
+	      		
+	      		<!-- Area do titulo -->
+				<div th:replace="~{comp/title :: title(title='Log de Execuções')}"></div>
+	      		
+	            <!-- Area das mensagens -->
+	            <div th:replace="~{comp/feedback :: feedback}"></div>	
+	            
+	            <!-- Loader -->
+		        <div th:replace="~{comp/loader :: loader(title='Aguarde')}"></div>   
+	            
+	            <!-- Confirmation -->
+		        <div th:replace="~{comp/confirmation :: confirmation(texto='Você tem certeza que deseja excluir este registro?')}"></div> 
+		      
+		      	<!-- Area de conteudo -->
+		        <div class="container-fluid my-2">
+		            <h5 class="text-start mt-4">Execução de Integração</h5>
+			        <div class="row pb-2">
+				        <div class="col-1">
+						  <label for="codigo" class="form-label">Código</label>
+						  <input type="text" class="form-control" id="codigo" placeholder="Digite o código da execução" disabled="disabled" th:value="${codigo != 'SN' ? codigo : ''}">
+						</div>
+						<div class="col-4">
+						  <label for="descricao" class="form-label">Descrição</label>
+						  <input type="text" class="form-control" id="descricao" placeholder="Digite a descrição da execução" disabled="disabled" th:value="${descricao !='SN' ? descricao : ''}">
+						</div>
+						<div class="col-1">
+						  <label for="origem" class="form-label">Origem</label>
+						  <input type="text" class="form-control" id="origem" placeholder="Digite a origem" disabled="disabled" th:value="${origem != 'SN' ? origem : ''}">
+						</div>		
+						<div class="col-1">
+						  <label for="destino" class="form-label">Destino</label>
+						  <input type="text" class="form-control" id="destino" placeholder="Digite a destino" disabled="disabled" th:value="${destino != 'SN' ? destino : ''}">
+						</div>	   
+						<div class="col-2">
+						  <label for="data" class="form-label">Data</label>
+						  <input type="text" class="form-control" id="data" placeholder="Digite a data" disabled="disabled" th:value="${data != 'SN' ? data : ''}">
+						</div> 
+						<div class="col-2">
+						  <label for="cadastro" class="form-label">Cadastro</label>
+						  <input type="text" class="form-control" id="cadastro" placeholder="Digite o cadastro" disabled="disabled" th:value="${cadastro != 'SN' ? cadastro : ''}">
+						</div>	   
+						<div class="col-1">
+						  <label for="paginas" class="form-label">Páginas</label>
+						  <input type="text" class="form-control" id="paginas" disabled="disabled" th:value="${paginas != 'SN' ? paginas : ''}">
+						</div>      
+					</div>
+					
+					<div class="btn-toolbar mb-2 mb-md-0 justify-content-end">
+						<button type="button" class="btn btn-secondary" id="excluir" data-bs-toggle="modal" data-bs-target="#confirmation" >Excluir</button>
+				        <span style="padding-left: 5px;"></span>
+						<button type="button" class="btn btn-primary" id="voltar">Voltar</button>
+			        </div>				
+					
+		        	<h5 class="text-start">Log</h5>
+		        	<table class="table table-sm table-hover">
+		        		<thead>
+		        			<tr>
+		        				<th>Registros de Processamento</th>	
+		        				<th style="width: 30px;"></th>
+								<th style="width: 30px;"></th>	
+		        			</tr>
+		        		</thead>
+		        		<tbody>
+							<tr th:each="log : ${listLog}">
+								<td style="padding: 0; border-bottom-width: 0;" th:text="${log.log}"></td>	
+								<td style="padding: 0; border-bottom-width: 0;" class="text-center">
+									<th:block th:if="${log.xml}">
+										<svg xmlns="http://www.w3.org/2000/svg" title="Erros da Execução" th:data-bs-target="${'#inv'+log.id}" data-bs-toggle="modal"  style="cursor: pointer;" width="16" height="16" fill="currentColor" class="bi bi-receipt" viewBox="0 0 16 16">
+  											<path d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27zm.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0l-.509-.51z"/>
+  											<path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
+										</svg>  										
+							  			    
+							  			<!-- Modal -->
+										<div class="modal fade" th:id="${'inv'+log.id}" tabindex="-1" aria-hidden="true">
+										  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <h5 class="modal-title">XML do Retorno</h5>
+										        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										      </div>
+										      <div class="modal-body">
+										       <textarea class="border-0" th:text="${log.xml}" rows="30" cols="200"></textarea>
+										      </div>
+										      <div class="modal-footer">
+										        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>			        
+										      </div>
+										    </div>
+										  </div>
+										</div>
+							  		</th:block>	
+							  		
+							  		<th:block th:unless="${log.xml}">
+							  		
+							  		</th:block>	
+        						</td>
+        						
+								<td style="padding: 0; border-bottom-width: 0;" class="text-center">
+									<th:block th:if="${log.erro}">
+							  			<svg xmlns="http://www.w3.org/2000/svg" title="Erros da Execução" th:data-bs-target="${'#invdoc'+log.id}" data-bs-toggle="modal"  style="cursor: pointer;" width="16" height="16" fill="currentColor" class="bi bi-bug" viewBox="0 0 16 16"><path d="M4.355.522a.5.5 0 0 1 .623.333l.291.956A4.979 4.979 0 0 1 8 1c1.007 0 1.946.298 2.731.811l.29-.956a.5.5 0 1 1 .957.29l-.41 1.352A4.985 4.985 0 0 1 13 6h.5a.5.5 0 0 0 .5-.5V5a.5.5 0 0 1 1 0v.5A1.5 1.5 0 0 1 13.5 7H13v1h1.5a.5.5 0 0 1 0 1H13v1h.5a1.5 1.5 0 0 1 1.5 1.5v.5a.5.5 0 1 1-1 0v-.5a.5.5 0 0 0-.5-.5H13a5 5 0 0 1-10 0h-.5a.5.5 0 0 0-.5.5v.5a.5.5 0 1 1-1 0v-.5A1.5 1.5 0 0 1 2.5 10H3V9H1.5a.5.5 0 0 1 0-1H3V7h-.5A1.5 1.5 0 0 1 1 5.5V5a.5.5 0 0 1 1 0v.5a.5.5 0 0 0 .5.5H3c0-1.364.547-2.601 1.432-3.503l-.41-1.352a.5.5 0 0 1 .333-.623zM4 7v4a4 4 0 0 0 3.5 3.97V7H4zm4.5 0v7.97A4 4 0 0 0 12 11V7H8.5zM12 6a3.989 3.989 0 0 0-1.334-2.982A3.983 3.983 0 0 0 8 2a3.983 3.983 0 0 0-2.667 1.018A3.989 3.989 0 0 0 4 6h8z"/></svg>    
+										    
+							  			<!-- Modal -->
+										<div class="modal fade" th:id="${'invdoc'+log.id}" tabindex="-1" aria-hidden="true">
+										  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+										    <div class="modal-content">
+										      <div class="modal-header">
+										        <h5 class="modal-title">XML do Retorno</h5>
+										        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										      </div>
+										      <div class="modal-body">
+										       <textarea class="border-0" th:text="${log.erro}" rows="30" cols="200"></textarea>
+										      </div>
+										      <div class="modal-footer">
+										        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>			        
+										      </div>
+										    </div>
+										  </div>
+										</div>
+							  		</th:block>	
+							  		
+							  		<th:block th:unless="${log.erro}">
+							  		
+							  		</th:block>	
+        						</td>
+        						
+							</tr>        		
+		        		</tbody>
+		        	</table>
+		        	
+		        	<!-- Navegador -->
+		        	<div th:replace="~{comp/navigator :: navigator}"></div>
+		        	
+		        	<!-- Ações / Status Processamento -->
+					<div class="row me-auto" th:if="${cadastro != 'Notas Fiscais'}">
+						    
+							<div class="btn-toolbar mb-2 mb-md-0 col-5">
+								<div><h4 class="pt-2 me-3"><span style="color:#0d6efd;">Sucesso:</span> <strong>[[${sucess}]]%</strong> - <span style="color:red;">Erros:</span><strong>[[${error}]]%</strong></h4></div>     				    	
+								<button type="button" class="btn btn-primary me-1" id="processar">Reprocesar Erros</button>
+							</div>
+							<span class="col-1 mt-1 text-end">Progresso:</span>
+							<div class="progress border float-end col-6 mt-1" >
+									<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+							</div>		
+					
+					</div>
+					<div class="row me-auto" th:unless="${cadastro != 'Notas Fiscais'}">
+						<div class="btn-toolbar mb-2 mb-md-0 col-5">
+							<button type="button" class="btn btn-primary me-1" id="processar">Reprocesar Nota</button>
+						</div>
+					</div>
+					
+		        </div>
+		    </main>
+    	 </div>
+	   </div>	
+       
+    </body>
+    <script>
+    	var timer;
+	    $( document ).ready(function() {
+	    	var codigo = $('#codigo').val();
+	   		
+	   		myLoader = new bootstrap.Modal(document.getElementById('loader'));
+	    	
+	     	$("#voltar").click(function (event) {
+	            event.preventDefault();	                       	        	
+	        	window.location.assign("/execucoes");
+	        });
+	     	
+	        // Processa os erros
+	    	$("#processar").click(function (event) {
+	    		event.preventDefault();	    		
+	    		bloquear_action();
+	    		jQuery.get("/log?action=exec&execId="+codigo);	    		
+	    		
+	    		myLoader.show();
+	    		
+	    		timer = setInterval("getStatus()", 2000);
+	    	});   
+	    	
+	    	$("#dlg_confirm_btn").click(function (event) {
+	    		event.preventDefault();	                       
+ 	            jQuery.get("/excluirlog?execId="+codigo, feedback("O Registro foi excluido com sucesso!", 'success', seguir));
+	        });
+
+	    });   
+	    
+	    function getStatus() {
+			var url = $("#path").val();
+			$.get("/"+url+"/status", function(res) {
+				var status = res.split(":")[0];				
+					
+				if (status == "Concluido") {
+					clearInterval(timer);	
+					
+					setTimeout(function(){
+						feedback("Parabens! Processamento concluído com sucesso.", 'success');	
+						myLoader.hide();	
+					},1000);
+					
+					liberar_action();
+		    	}	
+			});
+		}
+	    
+	    function bloquear_action() {
+	      	$("#processar").attr("disabled", true);	 
+	    	$("#voltar").attr("disabled", true);
+	    	$("#excluir").attr("disabled", true);
+	    	$(".page-item.disabled").addClass("inv-disabled");
+	    	$(".page-item").addClass("disabled");	
+	    }
+
+	    function liberar_action() {
+	   		$("#voltar").attr("disabled", false);
+	   		$("#excluir").attr("disabled", false);
+	    	$("#processar").attr("disabled", false);
+	    	$(".page-item").removeClass("disabled");	
+	    	$(".page-item.inv-disabled").removeClass(".inv-disabled").addClass("disabled");
+	    }
+	    
+	    function seguir() {
+        	window.location.assign("/execucoes");
+        }
+    </script>
+</html>

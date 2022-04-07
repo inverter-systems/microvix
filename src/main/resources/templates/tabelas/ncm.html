@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head th:replace="~{layout/head :: head('Integração de NCMs')}"></header>
+    <body>
+        <header th:replace="~{layout/header :: header}"></header>
+	
+		<div class="container-fluid">
+	    	<div class="row">
+	       	<nav th:replace="~{layout/menu :: menu}"></nav>
+	       
+       		<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+       		
+	      		<!-- Variaveis -->
+	      		<input type="hidden" id="path" th:value="${path}">
+	      		<input type="hidden" id="filter" th:value="${filter}">
+	      		
+	      		<!-- Area do titulo -->
+				<div th:replace="~{comp/title :: title(title='Integração de códigos NCM')}"></div>
+	      		
+	            <!-- Area das mensagens -->
+	            <div th:replace="~{comp/feedback :: feedback}"></div>	           
+		      
+		      	<!-- Area de conteudo -->
+		      	<div class="container-fluid my-2">
+		      	
+			  		<h5 class="text-start mt-4">Listagem de códigos da Nomenclatura Comum do Mercosul - NCM</h5>
+	        		<table border="1" class="table table-bordered table-striped table-responsive-md table-hover table-sm">
+	        			<thead>
+	        				<tr>
+	        					<th>Código</th>
+	        					<th>Descrição</th>
+	        				</tr>
+	        			</thead>
+	        			<tbody>
+							<tr th:each="ncm : ${listNcms}">
+								<td th:text="${ncm.codigo}"></td>	
+								<td th:text="${ncm.descricao}"></td>						
+							</tr>        
+	        			</tbody>
+	        		</table>
+	        	
+		        	<!-- Navegador -->
+		        	<div th:replace="~{comp/navigator :: navigator}"></div>
+		        	
+		        	<!-- Ações / Status Processamento -->
+					<div class="row me-auto">
+						<div class="btn-toolbar mb-2 mb-md-0 col-5">
+							<button type="button" class="btn btn-primary me-1" id="proc_todos">Atualizar Microvix</button>
+						</div>
+						<span id="status" class="col-1 mt-1 text-end">Progresso:</span>
+						<div class="progress border float-end col-6 mt-1">
+							<div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+						</div>
+					</div>
+	        	</div>
+			</main>
+		</div>
+		</div>
+    </body>
+    <script>
+	    $( document ).ready(function() {
+	   		const ACTION_TODOS = "todos";
+   		
+		    // Processa todos os dados dos itens
+			$("#proc_todos").click(function (event) {		
+				event.preventDefault();
+		        $.get("/ncm?action="+ACTION_TODOS);	
+		        start();
+			});   
+		    		
+		});	
+    </script>
+</html>

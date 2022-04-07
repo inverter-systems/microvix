@@ -1,0 +1,62 @@
+.progress {
+    height: 30px;
+}
+
+.inv-nav-item:hover {
+  background-color: #c0c5c9;
+}
+
+header {
+	line-height: 2.5;
+}
+
+.logo{
+	width: 45px;
+	padding-left: 10px;
+}
+
+.invInputTextOnly {
+	border: none;
+    background-color: unset;
+    color: #212529;
+}
+
+.invInputTextOnly100 {
+    width: 100%;
+}
+
+.invInputTextOnlyCol3 {	
+    width: 80%;
+}   
+
+.center-wrapper {
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.ajsute-h5 {
+	margin-bottom: 15px;
+}
+
+.no-border-top {
+	border-top: none !important;
+}
+
+.inv-border {
+	border: 1px solid #dee2e6;
+	border-right: none;
+}
+
+.inv-border-end {
+	border-right: 1px solid #dee2e6;
+}
+
+.inv-select {
+	width: auto;	
+	margin-right: 15px;
+	margin-left: 15px;
+}
+.inv-label {
+	line-height: 30px;
+	margin-top: 4px;
+}

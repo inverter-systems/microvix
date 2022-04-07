@@ -1,0 +1,16 @@
+<header th:fragment="header" class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <img class="logo" src="../static/img/logo_top.png">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-2" href="#">Top Internacional</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div th:inline="text" class="navbar-nav px-3 w-100 text-end text-white">Bem vindo, [[${#httpServletRequest.remoteUser}]]!</div>
+  <ul class="navbar-nav">
+    <li class="nav-item text-nowrap">	      
+      <form th:action="@{/logout}" method="post">
+           <input class="btn text-white" type="submit" value="Sair"/>
+         </form>
+    </li>
+  </ul>
+</header>
