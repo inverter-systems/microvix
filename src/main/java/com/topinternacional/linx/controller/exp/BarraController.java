@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.nl.view.Barra;
-import com.topinternacional.linx.service.tabelas.BarraService;
+import com.topinternacional.linx.service.exp.BarraService;
 
 @Controller
 public class BarraController {

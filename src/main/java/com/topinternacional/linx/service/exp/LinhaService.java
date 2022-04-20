@@ -1,4 +1,4 @@
-package com.topinternacional.linx.service.tabelas;
+package com.topinternacional.linx.service.exp;
 
 import java.util.ArrayList;
 import java.util.List;

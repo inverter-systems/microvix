@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.nl.view.Marca;
-import com.topinternacional.linx.service.tabelas.MarcaService;
+import com.topinternacional.linx.service.exp.MarcaService;
 
 @Controller
 public class MarcaController {

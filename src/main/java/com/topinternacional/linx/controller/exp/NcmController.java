@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.nl.view.Ncm;
-import com.topinternacional.linx.service.tabelas.NcmService;
+import com.topinternacional.linx.service.exp.NcmService;
 
 @Controller
 public class NcmController {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.nl.view.Cest;
-import com.topinternacional.linx.service.tabelas.CestService;
+import com.topinternacional.linx.service.exp.CestService;
 
 @Controller
 public class CestController {
