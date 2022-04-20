@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.topinternacional.linx.controller.tabelas.SetorController;
+import com.topinternacional.linx.controller.exp.SetorController;
 import com.topinternacional.linx.dto.Coluna;
 import com.topinternacional.linx.dto.Registro;
 import com.topinternacional.linx.enun.Metodo;

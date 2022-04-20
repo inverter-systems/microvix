@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.topinternacional.linx.api.BasicService;
-import com.topinternacional.linx.controller.cadastros.PessoaController;
+import com.topinternacional.linx.controller.exp.PessoaController;
 import com.topinternacional.linx.dto.Coluna;
 import com.topinternacional.linx.dto.Registro;
 import com.topinternacional.linx.enun.Metodo;

@@ -1,5 +1,5 @@
 
-package com.topinternacional.linx.controller.cadastros;
+package com.topinternacional.linx.controller.exp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

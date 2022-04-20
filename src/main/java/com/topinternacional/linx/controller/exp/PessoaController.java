@@ -1,4 +1,4 @@
-package com.topinternacional.linx.controller.cadastros;
+package com.topinternacional.linx.controller.exp;
 
 import java.io.IOException;
 

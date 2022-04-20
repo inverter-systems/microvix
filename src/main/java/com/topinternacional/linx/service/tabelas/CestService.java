@@ -10,7 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.topinternacional.linx.controller.tabelas.CestController;
+import com.topinternacional.linx.controller.exp.CestController;
 import com.topinternacional.linx.dto.Coluna;
 import com.topinternacional.linx.dto.Registro;
 import com.topinternacional.linx.enun.Metodo;
