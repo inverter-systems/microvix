@@ -1,9 +1,9 @@
-package com.topinternacional.linx.bean;
+package com.topinternacional.linx.dto;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 public class Cliente implements Serializable {
 	
@@ -416,6 +416,8 @@ public class Cliente implements Serializable {
 		Cliente cli = new Cliente();
 		
 		List<String> clientes = Util.getRegistrosXML(consultaMovimento);
+		
+		if (clientes == null) return cli;
 		
 		String[] col =  Util.getColunasXML(clientes.get(0));
 			

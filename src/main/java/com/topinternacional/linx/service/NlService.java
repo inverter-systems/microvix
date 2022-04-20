@@ -1,20 +1,17 @@
-package com.topinternacional.linx.services;
+package com.topinternacional.linx.service;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.topinternacional.linx.bean.Cliente;
-import com.topinternacional.linx.bean.FormaPagamento;
-import com.topinternacional.linx.bean.NotaFiscal;
-import com.topinternacional.linx.bean.NotaFiscalItem;
-import com.topinternacional.linx.exception.ClienteException;
+import com.topinternacional.linx.dto.Cliente;
+import com.topinternacional.linx.dto.FormaPagamento;
+import com.topinternacional.linx.dto.NotaFiscal;
+import com.topinternacional.linx.dto.NotaFiscalItem;
 import com.topinternacional.linx.exception.ConfigException;
 import com.topinternacional.linx.model.admin.Log;
 import com.topinternacional.linx.model.admin.OperacoesConfig;
@@ -50,14 +47,10 @@ import com.topinternacional.linx.model.nl.core.repo.PsFisicasRepository;
 import com.topinternacional.linx.model.nl.core.repo.PsJuridicasRepository;
 import com.topinternacional.linx.model.nl.core.repo.PsPessoasRepository;
 import com.topinternacional.linx.model.nl.core.repo.PsTelefonesRepository;
-import com.topinternacional.linx.services.util.SOAPConnector;
-import com.topinternacional.linx.services.util.Util;
 
 @Service
 public class NlService {
 	
-	@Autowired
-	private SOAPConnector soap;
 	@Autowired
 	private LogRepository log;
 	@Autowired
@@ -107,37 +100,6 @@ public class NlService {
 		aiCrTitulosRep.deleteAll(aiCrTitulosRep.findByCodUnidadeAndNumDocumento(codUnidade, numDocumento));
 		aiCrHistoricosRep.deleteAll(aiCrHistoricosRep.findByCodUnidadeAndNumDocumento(codUnidade, numDocumento));
 		 
-	}
-	
-	public Long getCodPessoa(Long idExec, NotaFiscal nf) throws ClienteException {
-		Long codPessoa = null;
-		
-		Cliente cli = soap.getCliente(idExec, nf);
-		Long cnpjCpf = Long.parseLong(cli.getDocCliente());
-		Boolean isJuridica = cnpjCpf > Long.valueOf("9999999999999");
-				
-		// Verifica se a pessoa existe e caso não exista cria
-		if (isJuridica) {
-			codPessoa = psJuridicasRep.findByNumCgc(cnpjCpf);
-			if (codPessoa ==  null) {
-				log(idExec, "Pessoa não encontrada, sistema tentará cria o cadastro da pessoa física ("+cnpjCpf+") com as informações do Microvix");
-				codPessoa = criarPessoaJuridica(idExec, cli);
-			}
-		} else {
-			codPessoa = psFisicasRep.findByNumCpf(cnpjCpf);
-			if (codPessoa ==  null) {
-				log(idExec, "Pessoa não encontrada, sistema tentará cria o cadastro da pessoa juridica ("+cnpjCpf+") com as informações do Microvix");
-				try {
-					codPessoa = criarPessoaFisica(idExec, cli);
-				} catch (DataIntegrityViolationException e) {
-					log(idExec, "Erro ao tentar criar a pessoa no N&L - "+e.getMessage());
-					throw new ClienteException();
-				}
-			}
-		}
-		
-		log(idExec, "Retornando o código da pessoa ("+codPessoa+") no sistema N&L");
-		return codPessoa;
 	}
 	
 	private PsPessoas criarPessoa (Long idExec, Cliente cli) {
@@ -195,7 +157,7 @@ public class NlService {
 		return pessoa;
 	}
 
-	private Long criarPessoaJuridica(Long idExec, Cliente cli) {
+	public Long criarPessoaJuridica(Long idExec, Cliente cli) {
 		
 		PsPessoas ps = criarPessoa(idExec, cli);
 		PsJuridicas pj = new PsJuridicas();
@@ -211,7 +173,7 @@ public class NlService {
 		return ps.getCodPessoa();
 	}
 
-	private Long criarPessoaFisica(Long idExec, Cliente cli)  {
+	public Long criarPessoaFisica(Long idExec, Cliente cli)  {
 		
 		PsPessoas ps = criarPessoa(idExec, cli);
 		PsFisicas pf = new PsFisicas();
@@ -492,13 +454,11 @@ public class NlService {
 		return aiNsNota;
 	}
 	
-
 	public List<AiCeDiario> insertAiCeDiarios(UnidadeConfig uc, NotaFiscal nf, Long codCliente) throws ConfigException {
 		List<AiCeDiario> aiCeDiarios = getAiCeDiarios(uc, nf, codCliente); 
 		aiCeDiarioRep.saveAll(aiCeDiarios);
 		return aiCeDiarios;
 	}
-	
 
 	public List<AiNsNotasOperacoes> insertAiCeDiarios(Integer codUnidade, Integer numero, String serie) {
 		List<AiNsNotasOperacoes> aiNsNotasOperacoes = aiNsNotasOperacoesRep.findByDiarios(codUnidade, numero, serie);
@@ -574,7 +534,6 @@ public class NlService {
 			return true;
 		}
 	}
-	
 
 	public AiNsNotasObservacoes insertAiNsNotasObservacoes(UnidadeConfig uc, NotaFiscal nf) {
 		AiNsNotasObservacoes ai = new AiNsNotasObservacoes();

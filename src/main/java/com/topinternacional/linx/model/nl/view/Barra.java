@@ -9,10 +9,11 @@ import javax.persistence.Table;
 @Table(name="TOPV_LINX_BARRAS")
 public class Barra {
 	
-	@Id
+	
 	@Column(name = "COD_PRODUTO")
     private String codigoProduto;	
 	
+	@Id
 	@Column(name = "COD_BARRAS")
 	private String codBarras;
 	

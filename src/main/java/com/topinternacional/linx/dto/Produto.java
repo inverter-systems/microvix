@@ -1,9 +1,9 @@
-package com.topinternacional.linx.bean;
+package com.topinternacional.linx.dto;
 
 import java.io.Serializable;
 import java.util.List;
 
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 public class Produto implements Serializable {
 

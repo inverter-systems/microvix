@@ -8,9 +8,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import com.topinternacional.linx.bean.Coluna;
-import com.topinternacional.linx.bean.Registro;
+
 import com.topinternacional.linx.controller.cadastros.ProdutoController;
+import com.topinternacional.linx.dto.Coluna;
+import com.topinternacional.linx.dto.Registro;
 import com.topinternacional.linx.enun.Metodo;
 import com.topinternacional.linx.enun.Sistemas;
 import com.topinternacional.linx.enun.Status;
@@ -18,8 +19,8 @@ import com.topinternacional.linx.model.admin.Execucoes;
 import com.topinternacional.linx.model.admin.repo.ExecucoesRepository;
 import com.topinternacional.linx.model.nl.view.Produto;
 import com.topinternacional.linx.model.nl.view.repo.ProdutoRepository;
-import com.topinternacional.linx.services.util.SOAPService;
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.SOAPService;
+import com.topinternacional.linx.service.Util;
 
 @Service
 public class ProdutoService {
@@ -55,10 +56,8 @@ public class ProdutoService {
 		Page<Produto> produto = getProdutos(codigo, marca, setor, sort, 1);
 		Integer totalPages =  produto.getTotalPages();
 		
-		
 		String filtro = "(setor="+setor+", marca="+marca+", codigo="+codigo+", sort="+sort+")"; 
 				
-		
 		//Registra a execução
 		Execucoes exec = execRepo.save(new Execucoes("Envio manuasl de produtos, "+Util.getSetor(setor)+" - "+filtro, Sistemas.NL.getId(), Sistemas.MICROVIX.getId(), "Produto", totalPages)); 
 

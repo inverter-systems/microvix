@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.topinternacional.linx.model.admin.Execucoes;
 import com.topinternacional.linx.model.admin.repo.ExecucoesRepository;
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 @Service
 public class ExecucoesService {

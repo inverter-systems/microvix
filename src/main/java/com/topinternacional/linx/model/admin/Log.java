@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 @Entity
 @Table(name="TOPT_LINX_LOG")

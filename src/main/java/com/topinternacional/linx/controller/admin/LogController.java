@@ -16,8 +16,8 @@ import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.admin.Execucoes;
 import com.topinternacional.linx.model.admin.Log;
 import com.topinternacional.linx.model.admin.repo.ExecucoesRepository;
+import com.topinternacional.linx.service.Util;
 import com.topinternacional.linx.services.admin.LogService;
-import com.topinternacional.linx.services.util.Util;
 
 @Controller
 public class LogController extends BasicController  {

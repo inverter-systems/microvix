@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 @Entity
 @Table(name="TOPV_LINX_MARCA")

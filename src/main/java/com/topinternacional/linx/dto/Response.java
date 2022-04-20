@@ -1,4 +1,4 @@
-package com.topinternacional.linx.bean;
+package com.topinternacional.linx.dto;
 
 import com.topinternacional.linx.enun.Submit;
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.topinternacional.linx.api.BasicController;
-import com.topinternacional.linx.bean.NotaFiscal;
+import com.topinternacional.linx.dto.NotaFiscal;
 import com.topinternacional.linx.services.imp.NotaFiscalService;
 
 @Controller

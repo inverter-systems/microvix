@@ -1,4 +1,4 @@
-package com.topinternacional.linx.services.util;
+package com.topinternacional.linx.service;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -7,12 +7,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.topinternacional.linx.bean.Registro;
-import com.topinternacional.linx.bean.Response;
+import com.topinternacional.linx.dto.Cliente;
+import com.topinternacional.linx.dto.NotaFiscal;
+import com.topinternacional.linx.dto.Registro;
+import com.topinternacional.linx.dto.Response;
 import com.topinternacional.linx.enun.Metodo;
 import com.topinternacional.linx.enun.Submit;
 import com.topinternacional.linx.model.admin.Log;
@@ -29,9 +30,23 @@ public class SOAPService {
 	
 	private byte[] xml;
 	
+	public Cliente getCliente(Long logId, NotaFiscal nf) throws IOException {	
+		if (nf == null) return null;
+			 
+		Cliente cli = new Cliente();
+		xml = xmlservicer.getXmlConsultaClientes(nf.getCodClienteMicrovix());
+		
+		Response result = sendXMLConsulta(xml);
+		
+		log.save(new Log(logId, "Buscando informações da pessoa pelo webservice do Microvix - Status: "+result.getStatusEnvio().getDescricao()));
+					
+		cli = Cliente.getCliente(result);
+			
+		return cli;
+	}
+	
 	public Response sendXML(byte[] xml) throws IOException {
 		 String url = "https://webapi.microvix.com.br/1.0/importador.svc";
-		 //String url = "http://localhost:8081/";
 		 
 		 URL obj = new URL(url);
 		 

@@ -11,16 +11,16 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.topinternacional.linx.api.BasicService;
-import com.topinternacional.linx.bean.Coluna;
-import com.topinternacional.linx.bean.Registro;
 import com.topinternacional.linx.controller.cadastros.PessoaController;
+import com.topinternacional.linx.dto.Coluna;
+import com.topinternacional.linx.dto.Registro;
 import com.topinternacional.linx.enun.Metodo;
 import com.topinternacional.linx.enun.Sistemas;
 import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.admin.Execucoes;
 import com.topinternacional.linx.model.nl.view.Pessoa;
 import com.topinternacional.linx.model.nl.view.repo.PessoaRepository;
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 @Service
 public class PessoaService extends BasicService {

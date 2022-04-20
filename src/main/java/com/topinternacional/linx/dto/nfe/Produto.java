@@ -1,4 +1,4 @@
-package com.topinternacional.linx.bean.nfe;
+package com.topinternacional.linx.dto.nfe;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

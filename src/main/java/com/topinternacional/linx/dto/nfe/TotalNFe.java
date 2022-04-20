@@ -1,4 +1,4 @@
-package com.topinternacional.linx.bean.nfe;
+package com.topinternacional.linx.dto.nfe;
 
 public class TotalNFe {
 	

@@ -2,6 +2,7 @@ package com.topinternacional.linx.controller.tabelas;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,13 @@ public class BarraController {
 	Integer totalPages;	
 
 	@Autowired
-	private BarraService barraService;
-	
+	private BarraService service;
 	
 	@GetMapping("/barra")
 	public String barra( @RequestParam(name="action", required=false, defaultValue="none") String action
-					   , @RequestParam(name="pag", required=false, defaultValue="1") int page	
+					   , @RequestParam(name="pag", required=false, defaultValue="1") int pag
+					   , @RequestParam(name="codigo", required=false) Integer codigo
+					   , @RequestParam(name="setor", required=false, defaultValue="SN") String setor
 			           , Model model
 			           ) {
 
@@ -32,21 +34,22 @@ public class BarraController {
 			status = Status.AGUARDADO;
 		}
 		
-		Page<Barra> barras = barraService.getBarras(page); 
-		
+		Page<Barra> barras = service.getBarras(codigo, setor, Sort.by("cod_produto"), pag); 
 		
 		if (action.equalsIgnoreCase("none")) {
 			model.addAttribute("listBarras", barras);
 		} else {
 			model.addAttribute("listBarras", barras);
-			barraService.exportMicrovix(barras);
+			service.exportMicrovix(codigo, setor, Sort.by("cod_produto"));
 		}
-		
+		 
 		model.addAttribute("totalPages", barras.getTotalPages());
-		model.addAttribute("currentPage", page);
+		model.addAttribute("currentPage", pag);
 		model.addAttribute("totalItems", barras.getTotalElements());
+		model.addAttribute("setor", setor);
+		model.addAttribute("codigo", codigo);
 		model.addAttribute("path", "barra");
-		model.addAttribute("filter", "");
+		model.addAttribute("filter", "&codigo="+codigo+"&setor="+setor);
 		model.addAttribute("help", "<p>Esta tela permite visualizar os código de barras cadastrados para os produtos no sistema N&L Gestão, enviar dados para inserir ou atualizar as informações do cadastro de codigo de barras no sistema Microvix.</p>"
 						  );
 

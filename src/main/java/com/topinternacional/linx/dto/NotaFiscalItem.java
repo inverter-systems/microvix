@@ -1,4 +1,4 @@
-package com.topinternacional.linx.bean;
+package com.topinternacional.linx.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 public class NotaFiscalItem implements Serializable {
 
@@ -304,8 +304,10 @@ public class NotaFiscalItem implements Serializable {
 		List<NotaFiscalItem> notasFiscaisItens = new ArrayList<NotaFiscalItem>();
 		List<String> itens = Util.getRegistrosXML(xmlitens);	
 		
+		if ( itens == null ) return notasFiscaisItens;
+		
 		for (String item : itens) {
-			String[] col = Util.getColunasXML(item);					
+			String[] col = Util.getColunasXML(item);					 
 						
 			NotaFiscalItem notaFiscalItem = new NotaFiscalItem();
 			

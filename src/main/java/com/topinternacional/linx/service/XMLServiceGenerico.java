@@ -1,4 +1,4 @@
-package com.topinternacional.linx.services.util;
+package com.topinternacional.linx.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.topinternacional.linx.bean.Coluna;
-import com.topinternacional.linx.bean.Registro;
+import com.topinternacional.linx.dto.Coluna;
+import com.topinternacional.linx.dto.Registro;
 import com.topinternacional.linx.enun.Metodo;
 
 @Service

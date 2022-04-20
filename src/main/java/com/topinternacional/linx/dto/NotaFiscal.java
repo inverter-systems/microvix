@@ -1,4 +1,4 @@
-package com.topinternacional.linx.bean;
+package com.topinternacional.linx.dto;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -9,7 +9,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 import br.com.swconsultoria.nfe.schema_4.enviNFe.TNFe;
 import br.com.swconsultoria.nfe.util.XmlNfeUtil;

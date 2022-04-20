@@ -1,4 +1,4 @@
-package com.topinternacional.linx.bean;
+package com.topinternacional.linx.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.topinternacional.linx.model.admin.FormasPgtoConfig;
-import com.topinternacional.linx.services.util.Util;
+import com.topinternacional.linx.service.Util;
 
 public class FormaPagamento implements Serializable {
 
@@ -77,6 +77,8 @@ public class FormaPagamento implements Serializable {
 	public static List<FormaPagamento> getFormasPagamento(Response res) {
 		List<FormaPagamento> formasPgto = new ArrayList<FormaPagamento>();
 		List<String> itens = Util.getRegistrosXML(res);
+		
+		if (itens == null) return formasPgto;
 		
 		for (String item : itens) {
 			String[] col = Util.getColunasXML(item);			

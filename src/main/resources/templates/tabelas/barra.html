@@ -24,6 +24,35 @@
 		      	<!-- Area de conteudo -->
 		      	<div class="container-fluid my-2">
 		      	
+		      		<!-- Filtro -->
+		      		<h5 class="text-start mt-4">Filtros da Consulta</h5>
+			        <div class="row pb-2">
+			            <div class="col-4">
+						  	<label for="setor" class="form-label">Setor</label>
+							<select name="setor" id="setor" class="form-select">
+								<option value="0" selected="${setor == 'SN'}">- Selecione um setor -</option>
+								<option value="Perfumaria" th:selected="${setor == '20'}">Perfumaria</option>
+								<option value="Casa e Decoração" th:selected="${setor == '21'}">Casa e Decoração</option>
+								<option value="Bebidas" th:selected="${setor == '22'}">Bebidas</option>
+								<option value="Cosméticos" th:selected="${setor == '23'}">Cosméticos</option>
+								<option value="Eletrônicos" th:selected="${setor == '27'}">Eletrônicos</option>
+								<option value="Acessórios" th:selected="${setor == '30'}">Acessórios</option>
+					  		</select>
+						</div>	
+				        <div class="col-8">
+						  <label for="codigo" class="form-label">Código NL</label>
+						  <input type="text" class="form-control" id="codigo" placeholder="Digite um código N&L ou uma lista de codigo. Ex.: 2006574;2007655;2638890" th:value="${codigo != 'SN' ? codigo : ''}">
+						</div>
+					</div>
+					
+					<!-- Actions -->
+					<div class="btn-toolbar mb-2 mb-md-0 justify-content-end">
+						<button type="button" class="btn btn-secondary" id="reset" onClick="reset()">Limpar</button>
+				        <span style="padding-left: 5px;"></span>
+						<button type="button" class="btn btn-primary" id="filtrar">Filtrar</button>
+			        </div>	
+		      		
+		      	
 			  		<h5 class="text-start mt-4">Listagem de Código de Barras cadastrados no Sistema N&L</h5>
 	        		<table border="1" class="table table-bordered table-striped table-responsive-md table-hover table-sm">
 	        			<thead>
@@ -66,21 +95,54 @@
 	    $( document ).ready(function() {
 	   		const ACTION_TODOS = "todos";
    		
+	   		var codigo = $("#codigo").val();
+	        var setor = $("#setor option:selected").val();
+
+	      	// Bloquear formumario, porque ja tem uma consulta com filtros em andamento
+	    	bloquear_filtro(codigo, setor);	
+	        
+	        // Filtrar
+	    	$("#filtrar").click(function (event) {
+	            event.preventDefault();
+	            
+	            var action = $("#acoes option:selected").val();
+	            
+	            codigo = $("#codigo").val();
+	        	setor = $("#setor").val() == 0 ? "" : $("#setor").val();
+	        	
+	        	window.location.assign("/barra?codigo="+codigo+"&setor="+setor);
+	        });  
+	   		
 		    // Processa todos os dados dos itens
 			$("#proc_todos").click(function (event) {		
 				event.preventDefault();
-		        $.get("/barra?action="+ACTION_TODOS);	
-		        start();
-			});   
-		    
-			$("#test").click(function (event) {		
-				event.preventDefault();
-				//feedback("Parabens! Processamento concluído com sucesso.", 'success');	
-				
-				alert(url);
+		        $.get("/barra?action="+ACTION_TODOS+"&codigo="+codigo+"&setor="+setor);	
+		        start(liberar_action);
 			});   
 		});	
 	    
+	    function reset() {	
+	    	window.location.assign("/barra");
+	    }
 	    
+	    function bloquear_filtro(codigo, setor) {
+	    	setor = setor == 0 ? "" : setor;	    	
+	    	if (codigo || setor) {
+	        	$("#codigo").attr("disabled", true);
+	         	$("#setor").attr("disabled", true);
+	        	$("#filtrar").attr("disabled", true);
+	    	}
+	    }
+	    
+	    function liberar_action() {
+	    	if (codigo || setor ) {    	
+	    		$("#reset").attr("disabled", false);
+	    	} else {
+	    		$("#reset").attr("disabled", false);
+	    		$("#filtrar").attr("disabled", false);
+	    	}
+	    	
+	    	$("#processar").attr("disabled", false);
+	    }
     </script>
 </html>

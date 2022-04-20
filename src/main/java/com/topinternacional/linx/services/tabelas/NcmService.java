@@ -8,9 +8,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import com.topinternacional.linx.bean.Coluna;
-import com.topinternacional.linx.bean.Registro;
+
 import com.topinternacional.linx.controller.tabelas.NcmController;
+import com.topinternacional.linx.dto.Coluna;
+import com.topinternacional.linx.dto.Registro;
 import com.topinternacional.linx.enun.Metodo;
 import com.topinternacional.linx.enun.Sistemas;
 import com.topinternacional.linx.enun.Status;
@@ -18,7 +19,7 @@ import com.topinternacional.linx.model.admin.Execucoes;
 import com.topinternacional.linx.model.admin.repo.ExecucoesRepository;
 import com.topinternacional.linx.model.nl.view.Ncm;
 import com.topinternacional.linx.model.nl.view.repo.NcmRepository;
-import com.topinternacional.linx.services.util.SOAPService;
+import com.topinternacional.linx.service.SOAPService;
 
 @Service
 public class NcmService {

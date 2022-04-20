@@ -1,4 +1,4 @@
-package com.topinternacional.linx.services.util;
+package com.topinternacional.linx.service;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -20,7 +20,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.HtmlUtils;
 
-import com.topinternacional.linx.bean.Response;
+import com.topinternacional.linx.dto.Response;
 
 @Service
 public final class Util {
