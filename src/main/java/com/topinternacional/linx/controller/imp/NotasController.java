@@ -15,9 +15,7 @@ import com.topinternacional.linx.api.BasicController;
 import com.topinternacional.linx.dto.NotaFiscal;
 import com.topinternacional.linx.exception.SemNotasParaImportarException;
 import com.topinternacional.linx.service.Util;
-//import com.topinternacional.linx.exception.ComunicacaoException;
-//import com.topinternacional.linx.exception.SemNotasParaImportarException;
-import com.topinternacional.linx.services.imp.NotaFiscalService;
+import com.topinternacional.linx.service.imp.NotaFiscalService;
 
 @Controller
 public class NotasController extends BasicController {

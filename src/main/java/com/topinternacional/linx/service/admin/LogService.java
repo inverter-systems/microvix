@@ -1,4 +1,4 @@
-package com.topinternacional.linx.services.admin;
+package com.topinternacional.linx.service.admin;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import com.topinternacional.linx.model.admin.Execucoes;
 import com.topinternacional.linx.model.admin.Log;
 import com.topinternacional.linx.model.admin.repo.LogRepository;
 import com.topinternacional.linx.model.nl.view.Produto;
-import com.topinternacional.linx.services.cadastros.ProdutoService;
+import com.topinternacional.linx.service.cadastros.ProdutoService;
 
 @Service
 public class LogService extends BasicService{

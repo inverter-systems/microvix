@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.topinternacional.linx.api.BasicController;
 import com.topinternacional.linx.dto.NotaFiscal;
-import com.topinternacional.linx.services.imp.NotaFiscalService;
+import com.topinternacional.linx.service.imp.NotaFiscalService;
 
 @Controller
 public class NotaController extends BasicController {

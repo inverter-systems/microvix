@@ -1,4 +1,4 @@
-package com.topinternacional.linx.services.admin;
+package com.topinternacional.linx.service.admin;
 
 import java.text.ParseException;
 import java.util.Date;

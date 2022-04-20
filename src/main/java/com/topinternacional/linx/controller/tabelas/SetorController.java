@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.nl.view.Setor;
-import com.topinternacional.linx.services.tabelas.SetorService;
+import com.topinternacional.linx.service.tabelas.SetorService;
 
 @Controller
 public class SetorController {

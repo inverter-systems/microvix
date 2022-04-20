@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.nl.view.Linha;
-import com.topinternacional.linx.services.tabelas.LinhaService;
+import com.topinternacional.linx.service.tabelas.LinhaService;
 
 @Controller
 public class LinhaController {

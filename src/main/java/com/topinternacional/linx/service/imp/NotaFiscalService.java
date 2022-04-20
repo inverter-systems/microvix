@@ -1,4 +1,4 @@
-package com.topinternacional.linx.services.imp;
+package com.topinternacional.linx.service.imp;
 
 import java.io.IOException;
 import java.text.ParseException;

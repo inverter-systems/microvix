@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.topinternacional.linx.api.BasicController;
 import com.topinternacional.linx.enun.Status;
 import com.topinternacional.linx.model.nl.view.Pessoa;
-import com.topinternacional.linx.services.cadastros.PessoaService;
+import com.topinternacional.linx.service.cadastros.PessoaService;
 
 @Controller
 public class PessoaController extends BasicController {

@@ -1,4 +1,4 @@
-package com.topinternacional.linx.services.cadastros;
+package com.topinternacional.linx.service.cadastros;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.topinternacional.linx.enun.Cadastro;
 import com.topinternacional.linx.model.admin.Execucoes;
-import com.topinternacional.linx.services.admin.ExecucoesService;
+import com.topinternacional.linx.service.admin.ExecucoesService;
 
 @Controller
 public class ExecucoesController {
