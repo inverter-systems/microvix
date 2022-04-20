@@ -23,7 +23,7 @@ import com.topinternacional.linx.model.admin.repo.LogRepository;
 public class SOAPService {
 	
 	@Autowired
-	private XMLServiceGenerico xmlservicer;
+	private XMLService xmlservicer;
 	
 	@Autowired
 	private LogRepository log;

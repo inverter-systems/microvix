@@ -11,7 +11,7 @@ import com.topinternacional.linx.dto.Registro;
 import com.topinternacional.linx.enun.Metodo;
 
 @Service
-public class XMLServiceGenerico {
+public class XMLService {
 	
 	@Value("${microvix.client.chave}")
 	private String chave;
